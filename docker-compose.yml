@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./app:/var/www/
+
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 80:80
+    depends_on:
+      - app
+    container_name: nginx
+
+  app:
+    build:
+      context: .
+      dockerfile: .docker/app/Dockerfile
+    volumes:
+      - ./app:/var/www
+#    ports:
+#      - 8080:8000
+    container_name: app
+
+#    depends_on:
+#      - db
+
+#  db:
+#    image: postgres
+#    container_name: go_postgres
+#    volumes:
+#      - ./backend/postgresql/data:/var/lib/postgresql/data
+#    ports:
+#      - "5433:5432"
+#    environment:
+#      POSTGRES_DB: go_db
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: password
+
+#  pgadmin:
+#    image: dpage/pgadmin4
+#    container_name: go_pgAdmin
+#    ports:
+#      - "5050:443"
+#    depends_on:
+#      - db
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: hanieasemi76@gmail.com
+#      PGADMIN_DEFAULT_PASSWORD: password
